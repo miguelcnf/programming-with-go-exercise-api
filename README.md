@@ -11,3 +11,9 @@ func CurrentHandler(w http.ResponseWriter, r *http.Request) {
     // TODO
 }
 ```
+
+References:
+
+* [net/http](https://golang.org/pkg/net/http/)
+* [time](https://golang.org/pkg/time/)
+* [encoding/json](https://golang.org/pkg/encoding/json/)
