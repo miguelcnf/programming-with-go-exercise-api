@@ -15,10 +15,10 @@ type Time struct {
 	Timezone string    `json:"Zone"`
 }
 
-// CurrentHandler returns the current time as a Time JSON representation.
-//
-// Callers might request a response in the timezone of their location by by setting the header WS-Local to a
+// CurrentHandler returns a 200 response with the current time as a Time JSON representation.
+// Callers might request a response in the timezone of their location by setting the header WS-Location to a
 // location name corresponding to a file in the IANA Time Zone database, such as "America/New_York".
+// If an unknown location is received it serves a 400 response.
 func CurrentHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
