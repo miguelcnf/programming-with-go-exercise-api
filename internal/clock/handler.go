@@ -1,6 +1,8 @@
 package clock
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 )
@@ -20,5 +22,37 @@ type Time struct {
 // location name corresponding to a file in the IANA Time Zone database, such as "America/New_York".
 // If an unknown location is received it serves a 400 response.
 func CurrentHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO
+	var (
+		now      = time.Now()
+		timezone = time.UTC.String()
+	)
+
+	location := r.Header.Get("WS-Location")
+	if location != "" {
+		l, err := time.LoadLocation(location)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		now = now.In(l)
+		timezone, _ = now.Zone()
+	}
+
+	t := Time{
+		Time:     now,
+		Timezone: timezone,
+	}
+
+	resp, err := json.Marshal(t)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Printf("error writing http response: %v", err)
+	}
 }
