@@ -81,8 +81,8 @@ func TestCurrentHandler(t *testing.T) {
 			t.Fatalf("expected error to be nil but was: %v", err)
 		}
 
-		if resp.Timezone != "EDT" {
-			t.Fatalf("expected timezone to be EDT but was: %v", resp.Timezone)
+		if resp.Timezone != "EST" {
+			t.Fatalf("expected timezone to be EST but was: %v", resp.Timezone)
 		}
 	})
 }
